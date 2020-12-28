@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   background: #232129;
   border-radius: 10px;
-  padding: 30px;
+  padding: 15px;
   width: 75%;
   height: 15%;
 
@@ -24,6 +24,7 @@ export const Container = styled.div`
     border: 0;
     color: #f4ede8;
     text-align: initial;
+    font-size: 19px;
 
     &::placeholder {
       color: #666360;

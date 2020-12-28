@@ -6,9 +6,9 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   containerStyle?: object;
 }
 
-const Input: React.FC<InputProps> = ({ type }) => (
+const Input: React.FC<InputProps> = ({ defaultValue, type, ...rest }) => (
   <Container>
-    <input type={type} />
+    <input type={type} {...rest} defaultValue={defaultValue} />
   </Container>
 );
 export default Input;

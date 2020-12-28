@@ -33,7 +33,10 @@
         "@typescript-eslint/ban-types": "off",
         "no-use-before-define": "off",
         "react/prop-types": 0,
+        "import/no-extraneous-dependencies": ["error",  {"devDependencies": true}],
+    "react/jsx-props-no-spreading": "off",
         "@typescript-eslint/no-use-before-define": ["error"],
+        "@typescript-eslint/explicit-module-boundary-types": ["warn"],
         "import/extensions": [
             "error",
             "ignorePackages",
