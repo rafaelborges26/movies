@@ -25,7 +25,6 @@ const SignIn: React.FC = () => {
 
   const handleSubmit = useCallback(() => {
     // valores para fazer o login: exemplo@gmail.com - 123456
-    console.log(data.email);
     if (data.email === 'exemplo@gmail.com' && data.password === '123456') {
       signIn({
         email: data.email,
