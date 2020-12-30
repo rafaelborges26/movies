@@ -15,7 +15,9 @@ export default createGlobalStyle`
  }
 
  body, input, button {
-     font: 16px "Popins", sans-serif;
+     font-size: 16px;
+     font-family: 'Roboto Slab', serif;
+
  }
 
  button {
