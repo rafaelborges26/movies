@@ -31,13 +31,15 @@ export const SearchMovie = styled.div`
   flex: 1;
 
   input {
-    height: 32px;
+    height: 36px;
     width: 363px;
     padding: 15px;
   }
 
-  a {
+  button {
     color: white;
+    background: #101084;
+    border-style: none;
   }
 
   svg {
@@ -57,7 +59,6 @@ export const Out = styled.div`
   display: flex;
   justify-content: center;
   display: block;
-  //color: #9932cc; colocar cor black
   margin-right: 50px;
   align-items: center;
 
