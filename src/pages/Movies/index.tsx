@@ -1,46 +1,39 @@
 import { url } from 'inspector';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiSearch, FiLogOut, FiPlusCircle } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import api from '../../services/themoviedb';
-import Logomovies from '../../assets/movies.svg';
-import {
-  Container,
-  Header,
-  SearchMovie,
-  Out,
-  Nav,
-  Content,
-  FlatList,
-  AddMyList,
-} from './styles';
+// import FlatListRulases from '../../components/FlatListRulases';
+import FlatList from '../../components/FlatList';
 
-interface MoviesProps {
+import Logomovies from '../../assets/movies.svg';
+import { Container, Header, SearchMovie, Out, Nav, Content } from './styles';
+import { clickSearchMovie } from '../../store/modules/movies/actions';
+import FlatListRulases from '../../components/FlatListRulases';
+
+interface MovieProps {
   title: string;
-  release_date: string;
-  vote_average: number;
 }
 
 const Movies: React.FC = () => {
-  const [movieFound, setMovieFound] = useState<MoviesProps>();
+  const dispatch = useDispatch();
+
+  const [movieTyped, setMovieTyped] = useState('');
   const [movieSearched, setMovieSearched] = useState('');
 
-  useEffect(() => {
-    api
-      .get('/trending', {
-        params: {
-          query: movieSearched,
-        },
-      })
-      .then(response => {
-        const movieFiltered = response.data.results[0];
-        setMovieFound(movieFiltered);
-        console.log(movieFiltered);
-      });
-  }, [movieSearched]);
+  // function handlerSearch() {
+  //  // setMovieSearched(movieTyped);
+  //  dispatch(clickSearchMovie(movieTyped));
+  // }
 
-  function handlerSearch() {
-    setMovieSearched('procurando nemo');
+  function handlerRulases() {
+    setMovieSearched('');
+  }
+
+  function handleSearch() {
+    dispatch(clickSearchMovie(movieTyped));
+    console.log(movieTyped, 'movietuped');
   }
 
   return (
@@ -51,10 +44,16 @@ const Movies: React.FC = () => {
         <SearchMovie>
           <input
             name="searchMovie"
+            onChange={event => setMovieTyped(event.target.value)}
             type="text"
             placeholder="Busque por um filme..."
           />
-          <button type="button" onClick={handlerSearch}>
+          <button
+            type="button"
+            onClick={() => {
+              handleSearch();
+            }}
+          >
             <FiSearch />
           </button>
         </SearchMovie>
@@ -67,36 +66,19 @@ const Movies: React.FC = () => {
         </Out>
       </Header>
       <Nav>
-        <Link to="/">Lançamentos</Link>
+        <Link
+          to="/"
+          onClick={() => {
+            handlerRulases();
+          }}
+        >
+          Lançamentos
+        </Link>
         <Link to="/">Minha lista</Link>
       </Nav>
-
+      <FlatList />
       <Content>
         <h1>Lançamentos</h1>
-        {movieFound?.title ? (
-          <FlatList>
-            <p>{movieFound?.title}</p>
-            <span>
-              Avaliação do filme:
-              {movieFound?.vote_average}
-            </span>
-            <span>{movieFound?.release_date}</span>
-            <AddMyList>
-              <FiPlusCircle size={24} />
-              <p>Minha lista</p>
-            </AddMyList>
-          </FlatList>
-        ) : (
-          <FlatList>
-            <p>Filme 1</p>
-            <span>Avaliação do filme: 8.5</span>
-            <span>20 de dezembro de 2020</span>
-            <AddMyList>
-              <FiPlusCircle size={24} />
-              <p>Minha lista</p>
-            </AddMyList>
-          </FlatList>
-        )}
       </Content>
     </Container>
   );

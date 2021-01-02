@@ -106,13 +106,14 @@ export const FlatList = styled.div`
   flex-direction: column;
 
   p {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 300;
+    //margin-bottom: 15px;
   }
 
   span {
-    margin-top: 10px;
-    margin-bottom: 5px;
+    font-size: 18px;
+    margin-top: 20px;
   }
 `;
 
@@ -121,14 +122,15 @@ export const AddMyList = styled.div`
   flex: 1;
   max-width: 600px;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 25px;
+  color: #ffe000;
 
   > svg {
-    margin-right: 3px;
+    margin-right: 5px;
   }
 
   p {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 600;
   }
 `;
