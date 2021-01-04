@@ -1,4 +1,4 @@
-import { IMovieState } from './types';
+import { IMovieState, IMyList } from './types';
 
 export function clickSearchMovie(movie: IMovieState | undefined): {} {
   return {

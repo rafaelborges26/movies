@@ -11,6 +11,7 @@ import Logomovies from '../../assets/movies.svg';
 import { Container, Header, SearchMovie, Out, Nav } from './styles';
 import { clickSearchMovie } from '../../store/modules/movies/actions';
 import FlatListRulases from '../../components/FlatListRulases';
+import MyList from '../../components/MyList';
 
 interface MoviesProps {
   adult?: boolean;
@@ -30,10 +31,6 @@ interface MoviesProps {
   vote_count: string;
 }
 
-interface IMovie {
-  movies: { movie: string };
-}
-
 const Movies: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -48,6 +45,11 @@ const Movies: React.FC = () => {
   const [movieFound, setMovieFound] = useState('');
   const [movieTyped, setMovieTyped] = useState('');
   const [movieSearched, setMovieSearched] = useState<MoviesProps>();
+  const [myList, setMyList] = useState();
+
+  // const [visibleMyList, setVisibleMyList] = useState(false);
+  // const [visibleSearch, setVisibleSearch] = useState(false);
+  // const [visibleRulases, setVisibleRulases] = useState(false);
 
   function handlerRulases() {
     // setMovieSearched();
@@ -55,8 +57,6 @@ const Movies: React.FC = () => {
 
   function handleSearch() {
     setMovieFound(movieTyped);
-
-    console.log(movieSearched);
   }
 
   useEffect(() => {
@@ -73,6 +73,11 @@ const Movies: React.FC = () => {
       });
   }, [movieFound]);
 
+  const handlerMyList = useCallback(() => {
+    console.log(movieSearched); // sera movie clicado
+    // dispatch(clickMyList()); enviar filme clicado
+  }, []);
+
   return (
     <Container>
       <Header>
@@ -88,6 +93,8 @@ const Movies: React.FC = () => {
           <button
             type="button"
             onClick={() => {
+              // setMyList();
+
               handleSearch();
             }}
           >
@@ -103,15 +110,17 @@ const Movies: React.FC = () => {
         </Out>
       </Header>
       <Nav>
-        <Link
-          to="/"
+        <button
+          type="button"
           onClick={() => {
             handlerRulases();
           }}
         >
           Lançamentos
-        </Link>
-        <Link to="/">Minha lista</Link>
+        </button>
+        <button type="button" onClick={handlerMyList}>
+          Minha lista
+        </button>
       </Nav>
       <FlatList />
     </Container>

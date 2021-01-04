@@ -18,10 +18,6 @@ export interface IMovieState {
   };
 }
 
-export interface IMovieRulasesState {
-  title: string;
-}
-
 export interface IMyList {
-  mylist: IMovieState[];
+  movie: IMovieState[];
 }

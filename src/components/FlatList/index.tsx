@@ -1,16 +1,23 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
-import { DefaultRootState, useSelector } from 'react-redux';
+import { DefaultRootState, useDispatch, useSelector } from 'react-redux';
 import { format, parseISO, getDate, getDay } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { Container, List, AddMyList } from './styles';
 import api from '../../services/themoviedb';
 import { clickSearchMovie } from '../../store/modules/movies/actions';
+
+import { clickMyList } from '../../store/modules/moviesLst/actions';
+
 import { IState } from '../../store/index';
 import FlatListRulases from '../FlatListRulases';
 import { IMovieState } from '../../store/modules/movies/types';
 
 const FlatList: React.FC = () => {
+  const dispatch = useDispatch();
+
+  const [myListMovies, setMyListMovies] = useState<IMovieState[]>([]);
+
   const movieSearched = useSelector<IState, IMovieState>(state => state.movies);
 
   const formatedData = useMemo(() => {
@@ -32,6 +39,14 @@ const FlatList: React.FC = () => {
     return dateFormated;
   }, [movieSearched]);
 
+  const handleMyList = useCallback(() => {
+    if (movieSearched) setMyListMovies([...myListMovies, movieSearched]);
+
+    console.log(movieSearched);
+
+    dispatch(clickMyList(movieSearched.movie));
+  }, [dispatch]);
+
   return (
     <Container>
       <h1>Filme buscado</h1>
@@ -46,8 +61,10 @@ const FlatList: React.FC = () => {
         </span>
         <span>{movieSearched.movie.release_date}</span>
         <AddMyList>
-          <FiPlusCircle size={28} />
-          <p>Minha lista</p>
+          <button type="button" onClick={handleMyList}>
+            <FiPlusCircle size={28} />
+            <p>Minha lista</p>
+          </button>
         </AddMyList>
       </List>
     </Container>
