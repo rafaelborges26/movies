@@ -1,75 +1,55 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
 import { DefaultRootState, useSelector } from 'react-redux';
+import { format, parseISO, getDate, getDay } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 import { Container, List, AddMyList } from './styles';
 import api from '../../services/themoviedb';
 import { clickSearchMovie } from '../../store/modules/movies/actions';
 import { IState } from '../../store/index';
 import FlatListRulases from '../FlatListRulases';
-
-interface MoviesProps {
-  adult?: boolean;
-  backdrop_path?: string;
-  genre_ids?: [];
-  id: number;
-  media_type?: string;
-  original_language?: string;
-  original_title?: string;
-  overview?: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: string;
-  vote_count: string;
-}
-
-interface IMovie {
-  movies: { movie: string };
-}
+import { IMovieState } from '../../store/modules/movies/types';
 
 const FlatList: React.FC = () => {
-  const [movieFound, setMovieFound] = useState<MoviesProps>();
-  const [movieSearched, setMovieSearched] = useState('');
-  // const [movieTitle, setMovieTitle] = useState<IMovie>();
+  const movieSearched = useSelector<IState, IMovieState>(state => state.movies);
 
-  const movieTitleSearched = useSelector<IState, string>(
-    state => state.movies.movie,
-  );
-  // console.log(movieTitleSearched);
-  if (movieTitleSearched) setMovieSearched(movieTitleSearched);
+  const formatedData = useMemo(() => {
+    const dateApi = movieSearched.movie.release_date;
+    const dateFormated = parseISO(dateApi);
 
-  useEffect(() => {
-    api
-      .get('/trending', {
-        params: {
-          query: movieSearched,
-        },
-      })
-      .then(response => {
-        const movieFiltered = response.data.results[0];
-        setMovieFound(movieFiltered);
-      });
+    const day = dateFormated.getDate();
+    const month = dateFormated.getMonth() + 1;
+    const year = dateFormated.getFullYear();
+
+    const dateAll = new Date(year, month, day);
+    // const dateAll = dateApi.replace('-', '/');
+
+    // return result;
+    // const testar = format(dateAll, "'dia' dd 'de' MMMM 'de' yyyy", {
+    //  locale: ptBR,
+    // });
+
+    return dateFormated;
   }, [movieSearched]);
 
   return (
     <Container>
-      {movieFound && (
-        <List>
-          <p>{movieFound.title}</p>
-          <span>
-            Avaliação do filme:
-            {movieFound.vote_average}
-          </span>
-          <span>{movieFound.vote_average}</span>
-          <AddMyList>
-            <FiPlusCircle size={28} />
-            <p>Minha lista</p>
-          </AddMyList>
-        </List>
-      )}
-      ;
+      <h1>Filme buscado</h1>
+      <List>
+        <p>
+          titulo do filme:
+          {movieSearched.movie.title}
+        </p>
+        <span>
+          Avaliação do filme:
+          {movieSearched.movie.vote_average}
+        </span>
+        <span>{movieSearched.movie.release_date}</span>
+        <AddMyList>
+          <FiPlusCircle size={28} />
+          <p>Minha lista</p>
+        </AddMyList>
+      </List>
     </Container>
   );
 };

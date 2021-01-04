@@ -3,8 +3,16 @@ import styled from 'styled-components';
 export const Container = styled.div`
   margin-top: 3%;
   display: flex;
+
   flex: 1;
   flex-direction: column;
+
+  align-items: initial;
+  margin: 3% 0 0 20%;
+
+  h1 {
+    font-weight: 300;
+  }
 `;
 
 export const List = styled.div`

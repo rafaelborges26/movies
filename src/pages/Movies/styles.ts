@@ -89,16 +89,6 @@ export const Nav = styled.div`
   }
 `;
 
-export const Content = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  //justify-content: space-between;
-  //justify-content: space-between;
-  align-items: initial;
-  margin: 3% 0 0 20%;
-`;
-
 export const FlatList = styled.div`
   margin-top: 3%;
   display: flex;

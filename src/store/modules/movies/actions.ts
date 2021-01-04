@@ -1,4 +1,6 @@
-export function clickSearchMovie(movie: string | undefined): {} {
+import { IMovieState } from './types';
+
+export function clickSearchMovie(movie: IMovieState | undefined): {} {
   return {
     type: 'CLICK_SEARCH_MOVIE',
     payload: {
